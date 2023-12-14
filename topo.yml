@@ -1,0 +1,45 @@
+name: ca
+
+mgmt:
+  network: comcast
+  ipv4-subnet: 10.10.1.0/24
+
+topology:
+  nodes:
+    rr13:
+      kind: nokia_srlinux
+      image: ghcr.io/nokia/srlinux:23.10.1
+      mgmt-ipv4: 10.10.1.13
+      startup-config: rr13.partial.config
+    cs01:
+      kind: nokia_srlinux
+      image: ghcr.io/nokia/srlinux:23.10.1
+      mgmt-ipv4: 10.10.1.101
+      startup-config: cs01.partial.config
+    asbr01:
+      kind: nokia_sros
+      image: vr-sros:23.7.R2
+      mgmt-ipv4: 10.10.1.102
+      type: sr-1
+      license: ~/license/license-sros23.txt
+      startup-config: asbr01.partial.config
+      binds:
+        - ./scripts/:/tftpboot/scripts/
+      exec:
+        - file make-directory cf3:/SCRIPT_RESULTS/
+    tcr01:
+      kind: nokia_srlinux
+      image: ghcr.io/nokia/srlinux:23.10.1
+      mgmt-ipv4: 10.10.1.201
+      startup-config: tcr01.partial.config
+    tcr02:
+      kind: nokia_srlinux
+      image: ghcr.io/nokia/srlinux:23.10.1
+      mgmt-ipv4: 10.10.1.202
+      startup-config: tcr02.partial.config
+
+  links:
+    - endpoints: ["rr13:e1-1", "cs01:e1-1"]
+    - endpoints: ["asbr01:eth1", "cs01:e1-2"]
+    - endpoints: ["asbr01:eth2", "tcr01:e1-1"]
+    - endpoints: ["asbr01:eth3", "tcr02:e1-1"]
