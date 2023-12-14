@@ -10,9 +10,10 @@
 - only the `asbr01` is running SROS, the others are all running SR Linux
 - `rr13` will be originating a tracking ip `1.1.1.1/32` into 65001 via iBGP. 
 - `cs01` runs eBGP over a point-to-point link to `asbr01`
-- `asbr01` runs ISIS and iBGP with `tcr01` and `tcr02`, NH on all iBGP routes is rewritten to `2.2.2.2/32`
+- `asbr01` runs ISIS and iBGP with `tcr01` and `tcr02`
+- NH on all iBGP routes is rewritten to `2.2.2.2/32`
 
-Advertise `2.2.2.2/32` into ISIS only if:
+## Advertise `2.2.2.2/32` into ISIS only if:
 - The point-to-point link between `asbr01` and `cs01` is up
 - The eBGP session between `asbr01` and `cs01` is up
 - The tracking ip `1.1.1.1/32` is in the route table
