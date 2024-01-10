@@ -1,7 +1,7 @@
 name: ca
 
 mgmt:
-  network: comcast
+  network: ehs
   ipv4-subnet: 10.10.1.0/24
 
 topology:
